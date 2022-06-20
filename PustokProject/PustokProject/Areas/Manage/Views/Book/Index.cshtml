@@ -1,15 +1,14 @@
 ﻿@model List<Book>
 @{
-    ViewData["Title"] = "Index";
     int count = 0;
 }
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12 mx-auto">
+        <div class="col-md-10 mx-auto">
             <a asp-action="create" class="btn btn-primary">Create</a>
         </div>
-        <div class="col-md-12 mx-auto">
+        <div class="col-md-10 mx-auto">
             <table class="table">
                 <thead>
                     <tr>
@@ -17,29 +16,31 @@
                         <th scope="col">Name</th>
                         <th scope="col">Author</th>
                         <th scope="col">Genre</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">PageSize</th>
+                        <th scope="col">Sale Price</th>
+                        <th scope="col">Cost Price</th>
+                        <th scope="col">Discount Percent</th>
+                        <th scope="col">Page Size</th>
                         <th scope="col">Actions</th>
-                        
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var book in Model)
                     {
                         count++;
-                        <tr>
-                            <th scope="row">@count</th>
-                            <td>@book.Name</td>
-                            <td>@book.Author.FullName</td>
-                            <td>@book.Genre.Name</td>
-                            <td>@book.SalePrice</td>
-                            <td>@book.PageSize</td>
-
-                            <td>
-                                <a asp-action="edit" asp-route-id="@book.Id" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
-                                <a asp-action="delete" asp-route-id="@book.Id"  class="btn btn-danger sweet-delete"><i class="fa-solid fa-trash"></i></a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <th scope="row">@count</th>
+                        <td>@book.Name</td>
+                        <td>@book.Author</td>
+                        <td>@book.Genre</td>
+                        <td>@book.SalePrice</td>
+                        <td>@book.CostPrice</td>
+                        <td>@book.DiscountPercent</td>
+                        <td>@book.PageSize</td>
+                        <td>
+                            <a asp-action="edit" asp-route-id="@book.Id" class="btn btn-warning">Edit</a>
+                            <a asp-action="delete" asp-route-id="@book.Id" class="btn btn-danger sweet-delete">Sweet Delete</a>
+                        </td>
+                    </tr>
                     }
 
                 </tbody>

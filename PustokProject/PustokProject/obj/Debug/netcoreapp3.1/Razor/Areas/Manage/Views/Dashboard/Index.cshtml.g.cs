@@ -19,8 +19,15 @@ using PustokProject.Models;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 2 "/Users/ibrahimaliyevv/Projects/TaskSpecial3PustokProject/PustokProject/PustokProject/Areas/Manage/Views/_ViewImports.cshtml"
+using PustokProject.Areas.Manage.ViewModels;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"f0c8939d4e2d523de737192e29cb0b24e323bf35", @"/Areas/Manage/Views/Dashboard/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"cb8ec140a3174fccb062a23d739542f18a36b5be", @"/Areas/Manage/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"0c5c85d0c60c9a8870ec025b0592da732ebd26c6", @"/Areas/Manage/Views/_ViewImports.cshtml")]
     #nullable restore
     public class Areas_Manage_Views_Dashboard_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     #nullable disable

@@ -20,15 +20,14 @@ namespace PustokProject.Helpers
             return newFileName;
         }
 
-        public static bool Delete(string root, string folder, string filename)
+        public static void Delete(string root, string folder, string filename)
         {
             string path = Path.Combine(root, folder, filename);
+
             if (File.Exists(path))
             {
                 File.Delete(path);
-                return true;
             }
-            return false;
         }
 
         public static void DeleteAll(string root, string folder, List<string> fileNames)
@@ -36,6 +35,7 @@ namespace PustokProject.Helpers
             foreach (var filename in fileNames)
             {
                 string path = Path.Combine(root, folder, filename);
+
                 if (File.Exists(path))
                 {
                     File.Delete(path);

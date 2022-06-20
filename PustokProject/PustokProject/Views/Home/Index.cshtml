@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
 <!--=================================
         Hero Area
         ===================================== -->
@@ -16,7 +15,7 @@
                             "dots":true
                             }'>
 
-                @for (int i = 0; i < Model.Sliders.Count; i++)
+                @*@for (int i = 0; i < Model.Sliders.Count; i++)
                 {
                     Slider item = Model.Sliders[i];
                     <div class="single-slide bg-shade-whisper">
@@ -42,7 +41,7 @@
                             </div>
                         </div>
                     </div>
-                }
+                }*@
 
             </div>
         </section>
@@ -151,13 +150,13 @@
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane active" id="newBooks" role="tabpanel" aria-labelledby="shop-tab">
-                            @await Html.PartialAsync("_BookTabSliderPartial",Model.NewBooks)
+                            
                         </div>
                         <div class="tab-pane" id="featuredBooks" role="tabpanel" aria-labelledby="men-tab">
-                            @await Html.PartialAsync("_BookTabSliderPartial", Model.FeaturedBooks)
+                            
                         </div>
                         <div class="tab-pane" id="discountedBooks" role="tabpanel" aria-labelledby="woman-tab">
-                            @await Html.PartialAsync("_BookTabSliderPartial", Model.DiscountedBooks)
+                            
                         </div>
                     </div>
                 </div>

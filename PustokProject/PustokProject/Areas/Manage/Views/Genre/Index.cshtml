@@ -14,7 +14,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Books count</th>
+                        <th scope="col">Book Count</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -22,14 +22,15 @@
                     @foreach (var genre in Model)
                     {
                         count++;
-                        <tr>
-                            <th scope="row">@count</th>
-                            <td>@genre.Name</td>
-                            <td>
-                                <a asp-action="edit" asp-route-id="@genre.Id" class="btn btn-warning">Edit</a>
-                                <a asp-action="delete" asp-route-id="@genre.Id" class="btn btn-danger sweet-delete">Sweet delete</a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <th scope="row">@count</th>
+                        <td>@genre.Name</td>
+                        <td>@genre.Books.Count()</td>
+                        <td>
+                            <a asp-action="edit" asp-route-id="@genre.Id" class="btn btn-warning">Edit</a>
+                            <a asp-action="delete" asp-route-id="@genre.Id" class="btn btn-danger sweet-delete">Sweet Delete</a>
+                        </td>
+                    </tr>
                     }
 
                 </tbody>

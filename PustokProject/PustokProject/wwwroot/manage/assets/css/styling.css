@@ -1,0 +1,14 @@
+﻿.img-box {
+    display: inline-block;
+    position: relative;
+    margin: 6px;
+}
+
+.img-box span{
+    position: absolute;
+    right: -6px;
+    top: -14px;
+    color: red;
+    font-size: 23px;
+    cursor: pointer;
+}

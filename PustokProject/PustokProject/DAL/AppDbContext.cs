@@ -1,10 +1,11 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PustokProject.Models;
 
 namespace PustokProject.DAL
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -19,6 +20,7 @@ namespace PustokProject.DAL
 
         public DbSet<BookTag> BookTags{get;set;}
         public DbSet<BookImage> BookImages { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
 	}
 }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PustokProject.DAL;
 using PustokProject.Models;
 
@@ -13,6 +14,7 @@ namespace PustokProject.Areas.Manage.Controllers
     [Area("Manage")]
     public class GenreController : Controller
     {
+
         private readonly AppDbContext _context;
 
         public GenreController(AppDbContext context)
@@ -20,11 +22,9 @@ namespace PustokProject.Areas.Manage.Controllers
             _context = context;
         }
 
-        // GET: /<controller>/
         public IActionResult Index()
         {
-            var data = _context.Genres.ToList();
-
+            var data = _context.Genres.Include(x=>x.Books).ToList();
             return View(data);
         }
 
@@ -41,6 +41,12 @@ namespace PustokProject.Areas.Manage.Controllers
                 return View();
             }
 
+            if(_context.Genres.Any(x=>x.Name == genre.Name))
+            {
+                ModelState.AddModelError("Name", "This genre is already exist!");
+                return View();
+            }
+
             _context.Genres.Add(genre);
             _context.SaveChanges();
 
@@ -49,7 +55,8 @@ namespace PustokProject.Areas.Manage.Controllers
 
         public IActionResult Edit(int id)
         {
-            Genre genre = _context.Genres.FirstOrDefault(x => x.Id == id);
+
+            Genre genre = _context.Genres.FirstOrDefault(x=>x.Id == id);
 
             if(genre == null)
             {
@@ -59,14 +66,21 @@ namespace PustokProject.Areas.Manage.Controllers
             return View(genre);
         }
 
-        public IActionResult Edit(Genre genre)
+        [HttpPost]
+        public IActionResult Edit(int id, Genre genre)
         {
             if (!ModelState.IsValid)
             {
                 return View();
             }
 
-            Genre existGenre = _context.Genres.FirstOrDefault(x => x.Id == genre.Id);
+            if(_context.Genres.Any(x=>x.Id!=id && x.Name == genre.Name))
+            {
+                ModelState.AddModelError("Name", "This genre is already exist");
+                return View();
+            }
+
+            Genre existGenre = _context.Genres.FirstOrDefault(x=>x.Id == genre.Id);
 
             if(existGenre == null)
             {
@@ -82,14 +96,14 @@ namespace PustokProject.Areas.Manage.Controllers
 
         public IActionResult Delete(int id)
         {
-            Genre genre = _context.Genres.FirstOrDefault(x => x.Id == id);
+            Genre existGenre = _context.Genres.FirstOrDefault(x => x.Id == id);
 
-            if (genre == null)
+            if(existGenre == null)
             {
                 return NotFound();
             }
 
-            _context.Genres.Remove(genre);
+            _context.Genres.Remove(existGenre);
             _context.SaveChanges();
 
             return Ok();

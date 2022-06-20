@@ -22,8 +22,8 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
-                                text: 'Please, choose the right teammember!',
-                                footer: '<a href="">There is no such teammember.</a>'
+                                text: 'Please, choose the right author!',
+                                footer: '<a href="">There is no such author.</a>'
                             })
                         }
                     })
@@ -35,5 +35,9 @@
                 )
             }
         })
+    })
+
+    $(".remove-img").click(function (e) {
+        $(this).parent().remove();
     })
 })

@@ -11,10 +11,12 @@ namespace PustokProject.Models
         [Required]
         [MaxLength(35)]
         public string Name { get; set; }
+        public int BookId { get; set; }
 
         [NotMapped]
         public List<Book> Books { get; set; }
-        public bool PosterStatus { get; internal set; }
+        public bool? PosterStatus { get; set; }
+        public Book Book { get; set; }
     }
 }
 

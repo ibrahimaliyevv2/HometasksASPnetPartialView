@@ -19,8 +19,15 @@ using PustokProject.Models;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 2 "/Users/ibrahimaliyevv/Projects/TaskSpecial3PustokProject/PustokProject/PustokProject/Areas/Manage/Views/_ViewImports.cshtml"
+using PustokProject.Areas.Manage.ViewModels;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"7369d7f5b6d25537177334910d3bb9a05cc1cc02", @"/Areas/Manage/Views/Dashboard/Error.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"cb8ec140a3174fccb062a23d739542f18a36b5be", @"/Areas/Manage/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"0c5c85d0c60c9a8870ec025b0592da732ebd26c6", @"/Areas/Manage/Views/_ViewImports.cshtml")]
     #nullable restore
     public class Areas_Manage_Views_Dashboard_Error : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     #nullable disable
@@ -64,9 +71,9 @@ using PustokProject.Models;
 #line hidden
 #nullable disable
             WriteLiteral("\n");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7369d7f5b6d25537177334910d3bb9a05cc1cc024790", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7369d7f5b6d25537177334910d3bb9a05cc1cc025033", async() => {
                 WriteLiteral("\n    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "7369d7f5b6d25537177334910d3bb9a05cc1cc025048", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "7369d7f5b6d25537177334910d3bb9a05cc1cc025291", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -93,7 +100,7 @@ using PustokProject.Models;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\n");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7369d7f5b6d25537177334910d3bb9a05cc1cc026899", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7369d7f5b6d25537177334910d3bb9a05cc1cc027142", async() => {
                 WriteLiteral(@"
     <div>
         <svg width=""1123"" height=""837"" viewBox=""0 0 1123 837"" fill=""none"" xmlns=""http://www.w3.org/2000/svg"">
@@ -200,7 +207,7 @@ using PustokProject.Models;
         <h1>404 Error</h1>
         <h2>Couldn't launch :(</h2>
         <h3>Page Not Found - lets take you ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7369d7f5b6d25537177334910d3bb9a05cc1cc0220179", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7369d7f5b6d25537177334910d3bb9a05cc1cc0220422", async() => {
                     WriteLiteral("BACK");
                 }
                 );
