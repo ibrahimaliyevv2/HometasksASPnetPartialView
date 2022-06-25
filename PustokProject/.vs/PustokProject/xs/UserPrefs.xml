@@ -1,4 +1,23 @@
 ﻿<Properties StartupConfiguration="{AC4A61E4-82AC-4ECA-8FE9-E08763254F56}|Default">
-  <MonoDevelop.Ide.ItemProperties.PustokProject FirstBuild="True" />
+  <MonoDevelop.Ide.ItemProperties.PustokProject PreferredExecutionTarget="/Applications/Google Chrome.app" />
   <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="PustokProject" expanded="True" selected="True">
+            <Node name="PustokProject" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
 </Properties>

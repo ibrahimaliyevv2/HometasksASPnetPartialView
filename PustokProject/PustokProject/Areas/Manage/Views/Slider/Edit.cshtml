@@ -30,15 +30,15 @@
                     <input asp-for="BtnUrl" type="text" class="form-control">
                     <span class="text-danger" asp-validation-for="BtnUrl"></span>
                 </div>
-                <div class="mb-3">
+                 <div class="mb-3">
                     <label asp-for="Desc" class="form-label">Desc</label>
                     <textarea asp-for="Desc" type="text" class="form-control"></textarea>
                     <span class="text-danger" asp-validation-for="Desc"></span>
                 </div>
-                <div class="mb-3">
-                    <input asp-for="ImageFile" />
-                    <span class="text-danger" asp-validation-for="ImageFile"></span>
-                    <img src="~/uploads/sliders/@Model.Image" />
+                 <div class="mb-3">
+                 <input  asp-for="ImageFile"/>
+                 <span class="text-danger" asp-validation-for="ImageFile"></span>
+                 <img  src="~/uploads/sliders/@Model.Image"/>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>

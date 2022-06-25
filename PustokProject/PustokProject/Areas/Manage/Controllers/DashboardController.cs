@@ -9,11 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PustokProject.Areas.Manage.Controllers
 {
-    [Authorize]
-    [Area("Manage")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
+    [Area("manage")]
     public class DashboardController : Controller
     {
-        // GET: /<controller>/
         public IActionResult Index()
         {
             return View();

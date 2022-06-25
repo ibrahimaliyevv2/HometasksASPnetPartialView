@@ -9,7 +9,7 @@ namespace PustokProject.Models
 	{
 		public int Id { get; set; }
 		[Required]
-		[MaxLength(35)]
+		[MaxLength(40)]
 		public string Name { get; set; }
 
 		[NotMapped]

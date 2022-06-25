@@ -25,12 +25,10 @@ namespace PustokProject.Areas.Manage.Controllers
             _context = context;
             _env = env;
         }
-
-        // GET: /<controller>/
         public IActionResult Index()
         {
-            var data = _context.Books.Include(x=>x.Genre).Include(x=>x.Author).ToList();
-            return View(data);
+            var model = _context.Books.Include(x => x.Genre).Include(x => x.Author).ToList();
+            return View(model);
         }
 
         public IActionResult Create()
@@ -39,36 +37,29 @@ namespace PustokProject.Areas.Manage.Controllers
             ViewBag.Genres = _context.Genres.ToList();
             ViewBag.Tags = _context.Tags.ToList();
 
-
             return View();
         }
 
         [HttpPost]
         public IActionResult Create(Book book)
         {
-
             if (!_context.Authors.Any(x => x.Id == book.AuthorId))
-            {
-                ModelState.AddModelError("AuthorId", "Author is not found");
-            }
+                ModelState.AddModelError("AuthorId", "Author notfound");
 
             if (!_context.Genres.Any(x => x.Id == book.GenreId))
-            {
-                ModelState.AddModelError("GenreId", "Genre is not found");
-            }
-            
+                ModelState.AddModelError("GenreId", "Genre notfound");
 
-            CheckCreatingPosterFiles(book);
-            CheckCreatingHoverPosterFiles(book);
+            CheckCreatePosterFile(book);
+            CheckCreateHoverPosterFile(book);
             CheckImageFiles(book);
             CheckTags(book);
-            
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Authors = _context.Authors.ToList();
                 ViewBag.Genres = _context.Genres.ToList();
+                ViewBag.Authors = _context.Authors.ToList();
                 ViewBag.Tags = _context.Tags.ToList();
+
 
                 return View();
             }
@@ -79,16 +70,16 @@ namespace PustokProject.Areas.Manage.Controllers
                 PosterStatus = true
             };
 
-            BookImage bookHoverPosterImage = new BookImage
+            BookImage bookHoverPosterFile = new BookImage
             {
                 Name = FileManager.Save(_env.WebRootPath, "uploads/books", book.HoverPosterFile),
                 PosterStatus = false
             };
 
             book.BookImages.Add(bookPosterImage);
-            book.BookImages.Add(bookHoverPosterImage);
+            book.BookImages.Add(bookHoverPosterFile);
+            AddImageFiles(book, book.ImageFiles);
 
-            AddImageFIles(book, book.ImageFiles);
 
             if (book.TagIds != null)
             {
@@ -103,20 +94,19 @@ namespace PustokProject.Areas.Manage.Controllers
                 }
             }
 
+
             _context.Books.Add(book);
             _context.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("index");
         }
 
         public IActionResult Edit(int id)
         {
-            Book book = _context.Books.Include(x=>x.BookImages).Include(x=>x.BookTags).FirstOrDefault(x=>x.Id == id);
+            Book book = _context.Books.Include(x => x.BookImages).Include(x => x.BookTags).FirstOrDefault(x => x.Id == id);
 
-            if(book == null)
-            {
+            if (book == null)
                 return RedirectToAction("error", "dashboard");
-            }
 
             ViewBag.Authors = _context.Authors.ToList();
             ViewBag.Genres = _context.Genres.ToList();
@@ -124,73 +114,98 @@ namespace PustokProject.Areas.Manage.Controllers
 
             book.TagIds = book.BookTags.Select(x => x.TagId).ToList();
 
+
             return View(book);
         }
+
 
         [HttpPost]
         public IActionResult Edit(Book book)
         {
-            Book existBook = _context.Books.Include(x => x.BookImages).Include(x=>x.BookTags).FirstOrDefault(x => x.Id == book.Id);
+            Book existBook = _context.Books.Include(x => x.BookImages).Include(x => x.BookTags).FirstOrDefault(x => x.Id == book.Id);
 
             if (existBook == null)
-            {
                 return RedirectToAction("error", "dashboard");
-            }
 
-            if (existBook.AuthorId!=book.AuthorId && !_context.Authors.Any(x => x.Id == book.AuthorId))
-            {
-                ModelState.AddModelError("AuthorId", "Author is not found");
-            }
+            if (existBook.AuthorId != book.AuthorId && !_context.Authors.Any(x => x.Id == book.AuthorId))
+                ModelState.AddModelError("AuthorId", "Author notfound");
 
-            if (existBook.GenreId!=book.GenreId && !_context.Genres.Any(x => x.Id == book.GenreId))
-            {
-                ModelState.AddModelError("GenreId", "Genre is not found");
-            }
+            if (existBook.GenreId != book.GenreId && !_context.Genres.Any(x => x.Id == book.GenreId))
+                ModelState.AddModelError("GenreId", "Genre notfound");
 
             if (book.PosterFile != null)
-            {
-                CheckPosterFiles(book);
-            }
+                CheckPosterFile(book);
+            if (book.HoverPosterFile != null)
+                CheckHoverPosterFile(book);
 
             CheckImageFiles(book);
             CheckTags(book);
 
+
             if (!ModelState.IsValid)
             {
-                ViewBag.Authors = _context.Authors.ToList();
                 ViewBag.Genres = _context.Genres.ToList();
+                ViewBag.Authors = _context.Authors.ToList();
                 ViewBag.Tags = _context.Tags.ToList();
-
 
 
                 return View();
             }
 
+
+
             List<string> deletedFiles = new List<string>();
 
-            if(book.PosterFile != null)
+            if (book.PosterFile != null)
             {
-                BookImage poster = existBook.BookImages.FirstOrDefault(x=>x.PosterStatus == true);
-                deletedFiles.Add(poster.Name);
+                BookImage poster = existBook.BookImages.FirstOrDefault(x => x.PosterStatus == true);
+
+                if (poster == null)
+                {
+                    poster = new BookImage { PosterStatus = true };
+                    existBook.BookImages.Add(poster);
+                }
+                else
+                    deletedFiles.Add(poster.Name);
+
                 poster.Name = FileManager.Save(_env.WebRootPath, "uploads/books", book.PosterFile);
             }
 
-            existBook.BookTags.RemoveAll(x=>!book.TagIds.Contains(x.TagId));
+            if (book.HoverPosterFile != null)
+            {
+                BookImage poster = existBook.BookImages.FirstOrDefault(x => x.PosterStatus == false);
 
-            foreach (var tagId in book.TagIds.Where(x=>existBook.BookTags.Any(bt=>bt.TagId==x)))
+                if (poster == null)
+                {
+                    poster = new BookImage { PosterStatus = false };
+                    existBook.BookImages.Add(poster);
+                }
+                else
+                    deletedFiles.Add(poster.Name);
+
+                poster.Name = FileManager.Save(_env.WebRootPath, "uploads/books", book.HoverPosterFile);
+
+            }
+
+            existBook.BookTags.RemoveAll(bt => !book.TagIds.Contains(bt.TagId));
+
+            foreach (var tagId in book.TagIds.Where(x => !existBook.BookTags.Any(bt => bt.TagId == x)))
             {
                 BookTag bookTag = new BookTag
                 {
                     TagId = tagId
                 };
-
                 existBook.BookTags.Add(bookTag);
             }
 
-            AddImageFIles(existBook, book.ImageFiles);
+
+
+            AddImageFiles(existBook, book.ImageFiles);
+
 
             existBook.Rate = book.Rate;
             existBook.Name = book.Name;
+            existBook.IsAvailable = book.IsAvailable;
             existBook.PageSize = book.PageSize;
             existBook.SubDesc = book.SubDesc;
             existBook.Desc = book.Desc;
@@ -200,43 +215,14 @@ namespace PustokProject.Areas.Manage.Controllers
             existBook.SalePrice = book.SalePrice;
             existBook.DiscountPercent = book.DiscountPercent;
 
+
             _context.SaveChanges();
 
             FileManager.DeleteAll(_env.WebRootPath, "uploads/books", deletedFiles);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("index");
         }
 
-
-
-
-        //Private helper methods
-
-        private void CheckPosterFiles(Book book)
-        {
-                if (book.PosterFile.ContentType != "image/png" && book.PosterFile.ContentType != "image/jpeg")
-                {
-                    ModelState.AddModelError("PosterFile", "File format must be image/png or image/jpeg!");
-                }
-
-                if (book.PosterFile.Length > 2097152)
-                {
-                    ModelState.AddModelError("PosterFile", "File size should be less than 2MB!");
-                }
-        }
-
-        private void CheckHoverPosterFiles(Book book)
-        {
-                if (book.HoverPosterFile.ContentType != "image/png" && book.HoverPosterFile.ContentType != "image/jpeg")
-                {
-                    ModelState.AddModelError("HoverPosterFile", "File format must be image/png or image/jpeg!");
-                }
-
-                if (book.HoverPosterFile.Length > 2097152)
-                {
-                    ModelState.AddModelError("HoverPosterFile", "File size should be less than 2MB!");
-                }
-        }
 
         private void CheckImageFiles(Book book)
         {
@@ -246,16 +232,69 @@ namespace PustokProject.Areas.Manage.Controllers
                 {
                     if (file.ContentType != "image/png" && file.ContentType != "image/jpeg")
                     {
-                        ModelState.AddModelError("ImageFiles", "File format must be image/png or image/jpeg!");
+                        ModelState.AddModelError("ImageFiles", "File format must be image/png or image/jpeg");
                     }
 
                     if (file.Length > 2097152)
                     {
-                        ModelState.AddModelError("ImageFiles", "File size should be less than 2MB!");
+                        ModelState.AddModelError("ImageFiles", "File size must be less than 2MB");
                     }
                 }
+
+            }
+        }
+
+
+        private void CheckCreatePosterFile(Book book)
+        {
+            if (book.PosterFile == null)
+            {
+                ModelState.AddModelError("PosterFile", "PosterFile is required");
+            }
+            else
+            {
+                CheckPosterFile(book);
+            }
+        }
+
+        private void CheckPosterFile(Book book)
+        {
+
+            if (book.PosterFile.ContentType != "image/png" && book.PosterFile.ContentType != "image/jpeg")
+            {
+                ModelState.AddModelError("PosterFile", "File format must be image/png or image/jpeg");
             }
 
+            if (book.PosterFile.Length > 2097152)
+            {
+                ModelState.AddModelError("PosterFile", "File size must be less than 2MB");
+            }
+        }
+
+        private void CheckCreateHoverPosterFile(Book book)
+        {
+            if (book.HoverPosterFile == null)
+            {
+                ModelState.AddModelError("HoverPosterFile", "HoverPosterFile is required");
+            }
+            else
+            {
+                CheckHoverPosterFile(book);
+            }
+        }
+
+        private void CheckHoverPosterFile(Book book)
+        {
+
+            if (book.HoverPosterFile.ContentType != "image/png" && book.HoverPosterFile.ContentType != "image/jpeg")
+            {
+                ModelState.AddModelError("HoverPosterFile", "File format must be image/png or image/jpeg");
+            }
+
+            if (book.HoverPosterFile.Length > 2097152)
+            {
+                ModelState.AddModelError("HoverPosterFile", "File size must be less than 2MB");
+            }
         }
 
         private void CheckTags(Book book)
@@ -266,18 +305,17 @@ namespace PustokProject.Areas.Manage.Controllers
                 {
                     if (!_context.Tags.Any(x => x.Id == tagId))
                     {
-                        ModelState.AddModelError("TagIds", "There is no such tag id!");
+                        ModelState.AddModelError("TagIds", "Tag id not found");
                         return;
                     }
                 }
             }
         }
 
-        private void AddImageFIles(Book book, List<IFormFile> images)
+        private void AddImageFiles(Book book, List<IFormFile> images)
         {
             if (images != null)
             {
-
                 foreach (var file in images)
                 {
                     BookImage bookImage = new BookImage
@@ -288,30 +326,6 @@ namespace PustokProject.Areas.Manage.Controllers
 
                     book.BookImages.Add(bookImage);
                 }
-            }
-        }
-
-        private void CheckCreatingPosterFiles(Book book)
-        {
-            if (book.PosterFile == null)
-            {
-                ModelState.AddModelError("PosterFile", "PosterFile is required!");
-            }
-            else
-            {
-                CheckPosterFiles(book);
-            }
-        }
-
-        private void CheckCreatingHoverPosterFiles(Book book)
-        {
-            if (book.HoverPosterFile == null)
-            {
-                ModelState.AddModelError("HoverPosterFile", "PosterFile is required!");
-            }
-            else
-            {
-                CheckHoverPosterFiles(book);
             }
         }
     }

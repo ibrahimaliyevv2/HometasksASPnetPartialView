@@ -46,6 +46,7 @@ namespace PustokProject.Models
         public List<BookTag> BookTags { get; set; } = new List<BookTag>();
         [NotMapped]
         public List<int> TagIds { get; set; } = new List<int>();
+        public object BookComments { get; internal set; }
     }
 }
 

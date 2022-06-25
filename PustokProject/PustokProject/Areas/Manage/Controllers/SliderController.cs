@@ -12,10 +12,9 @@ using PustokProject.Models;
 
 namespace PustokProject.Areas.Manage.Controllers
 {
-    [Area("Manage")]
+    [Area("manage")]
     public class SliderController : Controller
     {
-        // GET: /<controller>/
         private readonly AppDbContext _context;
         private readonly IWebHostEnvironment _env;
 

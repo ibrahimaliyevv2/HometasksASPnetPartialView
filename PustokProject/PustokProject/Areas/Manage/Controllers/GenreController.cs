@@ -11,21 +11,19 @@ using PustokProject.Models;
 
 namespace PustokProject.Areas.Manage.Controllers
 {
-    [Area("Manage")]
+    [Area("manage")]
     public class GenreController : Controller
     {
-
         private readonly AppDbContext _context;
 
         public GenreController(AppDbContext context)
         {
             _context = context;
         }
-
         public IActionResult Index()
         {
-            var data = _context.Genres.Include(x=>x.Books).ToList();
-            return View(data);
+            var model = _context.Genres.Include(x => x.Books).ToList();
+            return View(model);
         }
 
         public IActionResult Create()
@@ -37,31 +35,26 @@ namespace PustokProject.Areas.Manage.Controllers
         public IActionResult Create(Genre genre)
         {
             if (!ModelState.IsValid)
-            {
                 return View();
-            }
 
-            if(_context.Genres.Any(x=>x.Name == genre.Name))
+            if (_context.Genres.Any(x => x.Name == genre.Name))
             {
-                ModelState.AddModelError("Name", "This genre is already exist!");
+                ModelState.AddModelError("Name", "This genre already exist");
                 return View();
             }
 
             _context.Genres.Add(genre);
             _context.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("index");
         }
 
         public IActionResult Edit(int id)
         {
+            Genre genre = _context.Genres.FirstOrDefault(x => x.Id == id);
 
-            Genre genre = _context.Genres.FirstOrDefault(x=>x.Id == id);
-
-            if(genre == null)
-            {
+            if (genre == null)
                 return RedirectToAction("error", "dashboard");
-            }
 
             return View(genre);
         }
@@ -69,44 +62,34 @@ namespace PustokProject.Areas.Manage.Controllers
         [HttpPost]
         public IActionResult Edit(int id, Genre genre)
         {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
+            Genre existGenre = _context.Genres.FirstOrDefault(x => x.Id == id);
 
-            if(_context.Genres.Any(x=>x.Id!=id && x.Name == genre.Name))
-            {
-                ModelState.AddModelError("Name", "This genre is already exist");
-                return View();
-            }
-
-            Genre existGenre = _context.Genres.FirstOrDefault(x=>x.Id == genre.Id);
-
-            if(existGenre == null)
-            {
+            if (existGenre == null)
                 return RedirectToAction("error", "dashboard");
+
+            if (_context.Genres.Any(x => x.Id != id && x.Name == genre.Name))
+            {
+                ModelState.AddModelError("Name", "This genre already exist");
+                return View();
             }
 
             existGenre.Name = genre.Name;
-
             _context.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("index");
         }
 
         public IActionResult Delete(int id)
         {
-            Genre existGenre = _context.Genres.FirstOrDefault(x => x.Id == id);
+            Genre genre = _context.Genres.FirstOrDefault(x => x.Id == id);
 
-            if(existGenre == null)
-            {
-                return NotFound();
-            }
+            if (genre == null)
+                return RedirectToAction("error", "dashboard");
 
-            _context.Genres.Remove(existGenre);
+            _context.Genres.Remove(genre);
             _context.SaveChanges();
 
-            return Ok();
+            return RedirectToAction("index");
         }
     }
 }

@@ -30,6 +30,9 @@
     <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
     <None Remove="Areas\Manage\Views\Account\" />
     <None Remove="Areas\Manage\ViewModels\" />
+    <None Remove="Services\" />
+    <None Remove="Views\Account\" />
+    <None Remove="Views\Book\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -54,6 +57,9 @@
     <Folder Include="Areas\Manage\Views\Book\" />
     <Folder Include="Areas\Manage\Views\Account\" />
     <Folder Include="Areas\Manage\ViewModels\" />
+    <Folder Include="Services\" />
+    <Folder Include="Views\Account\" />
+    <Folder Include="Views\Book\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\" />
